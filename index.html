@@ -28,12 +28,12 @@
         }
         reader.readAsText(file)
       }
+    <input id=file type=file />
     </script>
     <form onsubmit="download(this['name'].value, this['text'].value)">
       <input type="text" name="name" value="test.txt">
       <textarea name="text"></textarea>
       <input type="submit" value="Download">
     </form>
-    <input id=file type=file />
   </body>
 </html>
