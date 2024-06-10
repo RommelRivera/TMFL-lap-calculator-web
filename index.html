@@ -1,39 +1,326 @@
 <html>
-  <head>
-    <title>TMFL Lap Calculator</title>
-  </head>
-  <body>
-    <script>
-      function download(filename, text) {
-        var element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-        element.setAttribute('download', filename);
-      
-        element.style.display = 'none';
-        document.body.appendChild(element);
-      
-        element.click();
-      
-        document.body.removeChild(element);
-      }
-      document.getElementById('file').addEventListener('change', readFile, false);
+    <head>
+        <title>TMFL Lap Calculator</title>
+    </head>
+    <body>
+        <!-- Placeholder for menu tabs -->
+        <button class="tabmenu" onclick="openPage('Menu')" id="defaultOpen">TMFL</button>
+        <button class="tabmenu" onclick="openPage('ImportExport')">Import/Export data</button>
 
-      function readFile(evt) {
-        var files = evt.target.files;
-        var file = files[0];
-        var reader = new FileReader();
-        reader.onload = function(event) {
-          console.log(event.target.result);
-          console.log("testing");
-        }
-        reader.readAsText(file)
-      }
-    <input id=file type=file />
-    </script>
-    <form onsubmit="download(this['name'].value, this['text'].value)">
-      <input type="text" name="name" value="test.txt">
-      <textarea name="text"></textarea>
-      <input type="submit" value="Download">
-    </form>
-  </body>
+        <div id="Menu" class="tabcontent">
+            <!-- Main table -->
+            <table border="2">
+                <thead>
+                    <tr>
+                        <th>Race</th>
+                        <th>Track Name</th>
+                        <th>Author</th>
+                        <th>No. of Laps</th>
+                        <th>Risk of Rain</th>
+                        <th>Temperature</th>
+                        <th>Tire Wear</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="Prologue">
+                        <td>Prologue</td>
+                        <td>Uprising Velocity</td>
+                        <td>Nano</td>
+                        <td name="laps">7</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>Sep. 22 - Sep. 26</td>
+                        <td style="border: 0;"><button onclick="openPage('Data'); setLaps(document.getElementById('Prologue').children['laps'].innerHTML); setRace('prologue')">Go</button></td>
+                    </tr>
+                    <tr id="Race1">
+                        <td>Race 1</td>
+                        <td>Daku Raceway</td>
+                        <td>Chraz</td>
+                        <td>55</td>
+                        <td>5%</td>
+                        <td>34°C</td>
+                        <td>Medium</td>
+                        <td>Sep. 30</td>
+                        <td style="border: 0;"><button>Go</button></td>
+                    </tr>
+                    <tr>
+                        <td>Race 2</td>
+                        <td>Rocky Pass</td>
+                        <td>Krull0r</td>
+                        <td>40</td>
+                        <td>11%</td>
+                        <td>3°C</td>
+                        <td>Medium</td>
+                        <td>Oct. 7</td>
+                        <th style="border: 0;"><button>Go</button></th>
+                    </tr>
+                    <tr>
+                        <td>Race 3</td>
+                        <td>Lykonos</td>
+                        <td>Popouette</td>
+                        <td>41</td>
+                        <td>30%</td>
+                        <td>36°C</td>
+                        <td>Medium</td>
+                        <td>Oct. 14</td>
+                        <th style="border: 0;"><button>Go</button></th>
+                    </tr>
+                    <tr>
+                        <td>Race 4</td>
+                        <td>Dylan is Dylan</td>
+                        <td>Cleora</td>
+                        <td>55</td>
+                        <td>2%</td>
+                        <td>0°C</td>
+                        <td>High</td>
+                        <td>Oct. 21</td>
+                        <th style="border: 0;"><button>Go</button></th>
+                    </tr>
+                    <tr>
+                        <td>Race 5</td>
+                        <td>Portside PUrsuit</td>
+                        <td>Chraz & Ealpise</td>
+                        <td>41</td>
+                        <td>70%</td>
+                        <td>12°C</td>
+                        <td>Low</td>
+                        <td>Oct. 28</td>
+                        <th style="border: 0;"><button>Go</button></th>
+                    </tr>
+                    <tr>
+                        <td>Race 6</td>
+                        <td>Oasyss</td>
+                        <td>Popouette & Nightwolf</td>
+                        <td>34</td>
+                        <td>0%</td>
+                        <td>40°C</td>
+                        <td>Medium</td>
+                        <td>Nov. 4</td>
+                        <th style="border: 0;"><button>Go</button></th>
+                    </tr>
+                    <tr>
+                        <td>Race 7</td>
+                        <td>King's Landing</td>
+                        <td>Nano & RedChoc</td>
+                        <td>56</td>
+                        <td>72%</td>
+                        <td>26°C</td>
+                        <td>High</td>
+                        <td>Nov. 11</td>
+                        <th style="border: 0;"><button>Go</button></th>
+                    </tr>
+                    <tr>
+                        <td>Race 8</td>
+                        <td>Distant Waters</td>
+                        <td>SBVille</td>
+                        <td>51</td>
+                        <td>10%</td>
+                        <td>5°C</td>
+                        <td>Medium</td>
+                        <td>Nov. 18</td>
+                        <th style="border: 0;"><button>Go</button></th>
+                    </tr>
+                    <tr>
+                        <td>Race 9</td>
+                        <td>SG1 - Racing Odyssey</td>
+                        <td>Kimi & RedChoc</td>
+                        <td>66</td>
+                        <td>5%</td>
+                        <td>5°C</td>
+                        <td>Medium</td>
+                        <td>Nov. 25</td>
+                        <th style="border: 0;"><button>Go</button></th>
+                    </tr>
+                    <tr>
+                        <td>Race 10</td>
+                        <td>Monacorchamps</td>
+                        <td>Tona</td>
+                        <td>67</td>
+                        <td>15%</td>
+                        <td>24°C</td>
+                        <td>Medium</td>
+                        <td>Dec. 2</td>
+                        <th style="border: 0;"><button>Go</button></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Data input page -->
+        <div id="Data" class="tabcontent">
+            <!-- Grab lap number dynamically -->
+            <h2 style="display: inline-block">No. of laps in race:&nbsp;</h2><h2 name="laps" style="display: inline-block"></h2><br>
+            <!-- Lap data tables -->
+            <table border="2" style="display: inline-block">
+                <thead>
+                    <th colspan="2">No Rain</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <table border="2" style="display: inline-block">
+                                <thead>
+                                    <th colspan="5">Slow lap data</th>
+                                </thead>
+                                <tbody>
+                                    <tr id="dryslow1">
+                                        <td>Tyre usage (%): </td>
+                                        <td><input oninput="setLapValues(); intCheck('dryslow1')" type="number" style="width: 60;" value="1" step="1" min="1" max="100"></td>
+                                        <td>Fuel usage (L): </td>
+                                        <td><input oninput="setLapValues()" type="number" style="width: 60;" value="0.1" step="0.1" min="0.1" max="100.0"></td>
+                                    </tr>
+                                    <tr id="dryslow2">
+                                        <td>Lap time (s): </td>
+                                        <td><input oninput="setLapValues()" type="number" style="width: 60;" value="0.1" step="0.1" min="0.1" max="100.0"></td>
+                                        <td>Lap time with box (s): </td>
+                                        <td><input oninput="setLapValues()" type="number" style="width: 60;" value="0.1" step="0.1" min="0.1" max="100.0"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table border="2" style="display: inline-block">
+                                <thead>
+                                    <th colspan="5">Fast lap data</th>
+                                </thead>
+                                <tbody>
+                                    <tr id="dryfast1">
+                                        <td>Tyre usage (%): </td>
+                                        <td><input oninput="setLapValues(); intCheck('dryfast1')" type="number" style="width: 60;" value="1" step="1" min="1" max="100"></td>
+                                        <td>Fuel usage (L): </td>
+                                        <td><input oninput="setLapValues()" type="number" style="width: 60;" value="0.1" step="0.1" min="0.1" max="100.0"></td>
+                                    </tr>
+                                    <tr id="dryfast2">
+                                        <td>Lap time (s): </td>
+                                        <td><input oninput="setLapValues()" type="number" style="width: 60;" value="0.1" step="0.1" min="0.1" max="100.0"></td>
+                                        <td>Lap time with box (s): </td>
+                                        <td><input oninput="setLapValues()" type="number" style="width: 60;" value="0.1" step="0.1" min="0.1" max="100.0"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <table border="2" style="display: inline-block">
+                <thead>
+                    <th colspan="2">Rain</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <table border="2" style="display: inline-block">
+                                <thead>
+                                    <th colspan="5">Slow lap data</th>
+                                </thead>
+                                <tbody>
+                                    <tr id="rainslow1">
+                                        <td>Tyre usage (%): </td>
+                                        <td><input oninput="setLapValues(); intCheck('rainslow1')" type="number" style="width: 60;" value="1" step="1" min="1" max="100"></td>
+                                        <td>Fuel usage (L): </td>
+                                        <td><input oninput="setLapValues()" type="number" style="width: 60;" value="0.1" step="0.1" min="0.1" max="100.0"></td>
+                                    </tr>
+                                    <tr id="rainslow2">
+                                        <td>Lap time (s): </td>
+                                        <td><input oninput="setLapValues()" type="number" style="width: 60;" value="0.1" step="0.1" min="0.1" max="100.0"></td>
+                                        <td>Lap time with box (s): </td>
+                                        <td><input oninput="setLapValues()" type="number" style="width: 60;" value="0.1" step="0.1" min="0.1" max="100.0"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table border="2" style="display: inline-block">
+                                <thead>
+                                    <th colspan="5">Fast lap data</th>
+                                </thead>
+                                <tbody>
+                                    <tr id="rainfast1">
+                                        <td>Tyre usage (%): </td>
+                                        <td><input oninput="setLapValues(); intCheck('rainfast1')" type="number" style="width: 60;" value="1" step="1" min="1" max="100"></td>
+                                        <td>Fuel usage (L): </td>
+                                        <td><input oninput="setLapValues()" type="number" style="width: 60;" value="0.1" step="0.1" min="0.1" max="100.0"></td>
+                                    </tr>
+                                    <tr id="rainfast2">
+                                        <td>Lap time (s): </td>
+                                        <td><input oninput="setLapValues()" type="number" style="width: 60;" value="0.1" step="0.1" min="0.1" max="100.0"></td>
+                                        <td>Lap time with box (s): </td>
+                                        <td><input oninput="setLapValues()" type="number" style="width: 60;" value="0.1" step="0.1" min="0.1" max="100.0"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br><br>
+
+            <!-- Raceplan designer -->
+            <div id="Raceplans">
+                <table border="2" class="table">
+                    <thead>
+                        <th colspan="10"><input type="text" value="Race plan 1" style="float: left;" class="designer"><button class="designer" id="stintdelete" style="float: right;">Delete raceplan</button></th>
+                        <th><select onfocus="populateDropdown(this)" class="designer"></select><button onclick="addStint(this.parentNode.parentNode.parentNode.parentNode.children[1].children[0])" class="designer">Add stint</button></th>
+                    </thead>
+                    <tbody>
+                        <tr class="stints" name="0">
+                            
+                        </tr>
+                        <tr>
+                            <td colspan="10">Estimated race time:&nbsp;<p class="result" style="display: inline-block;">N/A</p></td>
+                            <td colspan="10">Estimated fuel required for final stretch:&nbsp;<p class="result" style="display: inline-block;">N/A</p></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br id="raceanchor">
+            </div>
+            <br>
+            <button onclick="addRacePlan(); setLapValues()" class="designer">Add race plan</button>
+            <br><br>
+
+            <!-- Stint designer -->
+            <div id="Stintdesigner">
+                <table border="2" class="table">
+                    <thead>
+                        <th colspan="10"><input type="text" value="Stint 1" style="float: left;" class="designer"><button class="designer" id="stintdelete" style="float: right;">Delete stint</button></th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th colspan="2">No Rain</th>
+                            <th colspan="2">Rain</th>
+                        </tr>
+                        <tr>
+                            <td><button onclick="addLap(false, false, this.parentNode.parentNode.parentNode.children[2])" class="designer">Add slow lap</button></td>
+                            <td><button onclick="addLap(false, true, this.parentNode.parentNode.parentNode.children[2])" class="designer">Add fast lap</button></td>
+                            <td><button onclick="addLap(true, false, this.parentNode.parentNode.parentNode.children[2])" class="designer">Add slow lap</button></td>
+                            <td><button onclick="addLap(true, true, this.parentNode.parentNode.parentNode.children[2])" class="designer">Add fast lap</button></td>
+                        </tr>
+                        <tr name="0">
+                        </tr>
+                        <tr>
+                            <td>Estimated remaining tyres:&nbsp;<p class="result" style="display: inline-block;">N/A</p></td>
+                            <td>Estimated remaining fuel:&nbsp;<p class="result" style="display: inline-block;">N/A</p></td>
+                            <td>Estimated stint time:&nbsp;<p class="result" style="display: inline-block;">N/A</p></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br id="stintanchor">
+            </div>
+            <br>
+            <button onclick="addStintDesigner(); setLapValues()" class="designer">Add stint</button>
+        </div>
+
+        <!-- Import/Export page -->
+        <div id="ImportExport" class="tabcontent">
+            <!-- Placeholder for exporting data -->
+            <form onsubmit="download(this['name'].value, this['text'].value)">
+                <input type="text" name="name" value="test.txt">
+                <textarea name="text"></textarea>
+                <input type="submit" value="Download">
+            </form>
+
+            <!-- Placeholder for importing data -->
+            <input id="file" type="file" />
+        </div>
+    </body>
+    <script src="script.js"></script>
 </html>
